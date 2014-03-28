@@ -29,8 +29,8 @@ public final class R {
         public static final int TelephoneNumberET=0x7f080005;
         public static final int action_settings=0x7f080009;
         public static final int addContactTitle=0x7f080000;
-        public static final int appTitle=0x7f080007;
-        public static final int btnAddContact=0x7f080008;
+        public static final int appTitle=0x7f080008;
+        public static final int btnAddContact=0x7f080007;
         public static final int contactImageView=0x7f080003;
         public static final int contactNameET=0x7f080002;
         public static final int contactSurnameET=0x7f080004;
