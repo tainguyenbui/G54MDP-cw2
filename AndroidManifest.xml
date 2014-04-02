@@ -29,6 +29,16 @@
             android:name="com.example.g54mdp_addressbook.AddContactActivity"
             android:label="@string/title_activity_add_contact" >
         </activity>
+
+        <provider
+            android:name="com.example.g54mdp_addressbook.MyContentProvider"
+            android:authorities="com.example.g54mdp_addressbook.MyContentProvider" >
+        </provider>
+
+        <activity
+            android:name="com.example.g54mdp_addressbook.ContactDetailsActivity"
+            android:label="@string/title_activity_contact_details" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,18 +1,35 @@
 package com.example.g54mdp_addressbook;
 
-import library.Constants;
+import library.ContactsContract;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 public class MainActivity extends Activity {
+	private ListView listView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		updateContactList();
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+				Log.d("MainActivity", "List Item clicked, ID: " + id);
+
+			}
+		});
 	}
 
 	@Override
@@ -24,7 +41,31 @@ public class MainActivity extends Activity {
 
 	public void addContact(View view) {
 		Intent addContactIntent = new Intent(getApplicationContext(), AddContactActivity.class);
-		startActivity(addContactIntent);
+		startActivityForResult(addContactIntent, ContactsContract.SUCCESSFUL_ADD_CONTACT_REQUEST);
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == Activity.RESULT_OK && requestCode == ContactsContract.SUCCESSFUL_ADD_CONTACT_REQUEST) {
+			updateContactList();
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	private void updateContactList() {
+		Cursor cursor = getContentResolver().query(ContactsContract.CONTACTS_URI, ContactsContract.TABLE_COLUMNS, null,
+				null, ContactsContract.LISTVIEW_ORDER);
+
+		if (cursor != null) {
+			String[] columns = { ContactsContract.KEY_NAME, ContactsContract.KEY_THUMBNAIL_IMAGE_PATH };
+			int[] toViews = { R.id.name, R.id.contact_icon };
+
+			SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.listview_items, cursor, columns,
+					toViews, 0);
+
+			listView = (ListView) findViewById(R.id.contacts_list);
+			listView.setAdapter(adapter);
+		}
+
+	}
 }

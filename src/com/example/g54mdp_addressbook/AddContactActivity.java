@@ -3,14 +3,15 @@ package com.example.g54mdp_addressbook;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import library.Constants;
-import library.DatabaseHandler;
+import library.ContactsContract;
+import android.media.MediaScannerConnection;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -28,7 +29,12 @@ public class AddContactActivity extends Activity {
 
 	private EditText nameET = null, surnameET = null, telephoneET = null, emailET = null;
 
-	private String originalImagePath = null, thumbnailImagePath = null;
+	private static String THUMBNAIL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
+			+ "/contact_thumbnails";
+
+	private static String DEFAULT_ICON_PATH = THUMBNAIL_PATH + "/ic_contact_picture_2.png";
+
+	private String originalImagePath = DEFAULT_ICON_PATH, thumbnailImagePath = DEFAULT_ICON_PATH;
 
 	private Button btnAddContact;
 
@@ -45,7 +51,7 @@ public class AddContactActivity extends Activity {
 				Intent imagePicker = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 				imagePicker.addCategory(Intent.CATEGORY_OPENABLE);
 				imagePicker.setType("image/*");
-				startActivityForResult(imagePicker, Constants.CHOOSE_PIC_REQUEST_CODE);
+				startActivityForResult(imagePicker, ContactsContract.CHOOSE_PIC_REQUEST_CODE);
 			}
 		});
 
@@ -66,42 +72,71 @@ public class AddContactActivity extends Activity {
 				emailET = (EditText) findViewById(R.id.emailET);
 				String email = emailET.getText().toString();
 
-				DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-				db.addContact(name, surname, telephone, email, thumbnailImagePath, originalImagePath);
-				Toast contactAddedToast = Toast.makeText(getApplicationContext(), "Contact Added", Toast.LENGTH_LONG);
-				contactAddedToast.show();
-				finish();
+				if (validContactDetails(name, telephone, email)) {
+					ContentValues values = new ContentValues();
+					values.put(ContactsContract.KEY_NAME, name); // Name
+					values.put(ContactsContract.KEY_SURNAME, surname); // Surname
+					values.put(ContactsContract.KEY_TELEPHONE, telephone); // Telephone
+					values.put(ContactsContract.KEY_EMAIL, email); // Email
+					values.put(ContactsContract.KEY_THUMBNAIL_IMAGE_PATH, thumbnailImagePath);
+					values.put(ContactsContract.KEY_ORIGINAL_IMAGE_PATH, originalImagePath);
+
+					Uri uri = getContentResolver().insert(ContactsContract.CONTACTS_URI, values);
+
+					Toast contactAddedToast = Toast.makeText(getApplicationContext(), "Contact Added",
+							Toast.LENGTH_LONG);
+					contactAddedToast.show();
+
+					Intent _result = new Intent();
+					_result.setData(uri);
+					setResult(Activity.RESULT_OK, _result);
+					finish();
+				}
 			}
+
 		});
+	}
+
+	private boolean validContactDetails(String name, String telephone, String email) {
+		// Check not empty field in Name
+		if (name.length() > 1 && telephone.length() > 2 && email.contains("@") && email.length() > 5) {
+			return true;
+		}
+		else {
+			Toast.makeText(getApplicationContext(), "Invalid input, please check", Toast.LENGTH_LONG).show();
+		}
+		return false;
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == Constants.CHOOSE_PIC_REQUEST_CODE && resultCode == RESULT_OK) {
+		if (requestCode == ContactsContract.CHOOSE_PIC_REQUEST_CODE && resultCode == RESULT_OK) {
 			Uri pictureUri = data.getData();
 			Bitmap contactImageThumbnail = getImageThumbNail(pictureUri);
 			contactImageView = (ImageView) findViewById(R.id.contactImageView);
 			contactImageView.setImageBitmap(contactImageThumbnail);
 
-			String root = Environment.getExternalStorageDirectory().toString();
-			File fileDir = new File(root + "/contact_thumbnails");
-			fileDir.mkdirs();
-
 			telephoneET = (EditText) findViewById(R.id.TelephoneNumberET);
 			String telephone = telephoneET.getText().toString();
 
-			String thumbnailName = "thumbnail_" + telephone + ".png";
+			File fileDir = new File(THUMBNAIL_PATH);
+			if (!fileDir.exists())
+				fileDir.mkdirs();
 
-			thumbnailImagePath = fileDir.getPath() + "/" + thumbnailName;
-			File file = new File(fileDir, thumbnailImagePath);
-			if (file.exists())
-				file.delete();
+			String path = fileDir.getAbsolutePath();
+
+			String thumbnailName = "thumbnail_Contact_" + System.currentTimeMillis() + ".png";
+
+			thumbnailImagePath = path + "/" + thumbnailName;
+			File file = new File(path, thumbnailName);
+
 			try {
 				FileOutputStream fout = new FileOutputStream(file);
 				contactImageThumbnail.compress(Bitmap.CompressFormat.PNG, 100, fout);
 				fout.flush();
 				fout.close();
 
+				Log.d("AddContactActivity", "Image saved");
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -126,8 +161,8 @@ public class AddContactActivity extends Activity {
 		int originalSize = (bounds.outHeight > bounds.outWidth) ? bounds.outHeight : bounds.outWidth;
 
 		BitmapFactory.Options opts = new BitmapFactory.Options();
-		opts.inSampleSize = originalSize / Constants.THUMBNAIL_SIZE;
-		return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(originalImagePath, opts), 120, 120);
+		opts.inSampleSize = originalSize / ContactsContract.THUMBNAIL_SIZE;
+		return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(originalImagePath, opts), 140, 140);
 	}
 
 	private String getImagePath(Uri pictureUri) {
