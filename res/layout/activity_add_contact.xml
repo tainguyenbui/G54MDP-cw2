@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add contact:"
-            android:textSize="23dp" />
+            android:textSize="23sp" />
 
         <RelativeLayout
             android:id="@+id/nameImageLayout"
@@ -68,7 +68,7 @@
             android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="Email address"
-            android:inputType="text" />
+            android:inputType="textEmailAddress" />
 
         <Button
             android:id="@+id/btnAddContact"
@@ -82,9 +82,10 @@
 
         <ImageView
             android:id="@+id/contactImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_above="@+id/contactSurnameET"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/nameImageLayout"
             android:src="@drawable/ic_contact_picture_2" />
     </RelativeLayout>

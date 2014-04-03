@@ -16,9 +16,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
+
 	private ListView listView;
-
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,13 @@ public class MainActivity extends Activity {
 				startActivity(viewContactDetailsIntent);
 			}
 		});
+	}
 
+	@Override
+	protected void onStart() {
+		// Update contact list in case a contact has been deleted
+		updateContactList();
+		super.onStart();
 	}
 
 	@Override

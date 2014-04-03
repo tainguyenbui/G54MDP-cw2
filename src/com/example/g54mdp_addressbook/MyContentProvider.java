@@ -32,33 +32,6 @@ public class MyContentProvider extends ContentProvider {
 		return true;
 	}
 
-	// public Cursor getContacts() {
-	// return dbHandler.query(ContactsContract.TABLE_CONTACTS, new String[] { ContactsContract.KEY_CONTACT_ID,
-	// ContactsContract.KEY_NAME, ContactsContract.KEY_SURNAME, ContactsContract.KEY_TELEPHONE,
-	// ContactsContract.KEY_EMAIL, ContactsContract.KEY_THUMBNAIL_IMAGE_PATH,
-	// ContactsContract.KEY_ORIGINAL_IMAGE_PATH }, null, null, null, null, ContactsContract.KEY_NAME + " ASC");
-	//
-	// }
-	//
-	// public Cursor getId(String name) {
-	// Cursor cursor = dbHandler.query(ContactsContract.TABLE_CONTACTS, new String[] {
-	// ContactsContract.KEY_CONTACT_ID, ContactsContract.KEY_NAME, ContactsContract.KEY_SURNAME,
-	// ContactsContract.KEY_TELEPHONE, ContactsContract.KEY_EMAIL, ContactsContract.KEY_THUMBNAIL_IMAGE_PATH,
-	// ContactsContract.KEY_ORIGINAL_IMAGE_PATH }, ContactsContract.KEY_NAME + "='" + name + "'", null, null,
-	// null, null);
-	// if (cursor != null && cursor.moveToFirst()) {
-	// do {
-	// if (cursor.getString(cursor.getColumnIndex(ContactsContract.KEY_NAME)).equals(name)) {
-	// return cursor;
-	// }
-	// }
-	// while (cursor.moveToNext());
-	// }
-	//
-	// return cursor;
-	//
-	// }
-
 	@Override
 	public String getType(Uri uri) {
 		String contentType;
@@ -101,6 +74,7 @@ public class MyContentProvider extends ContentProvider {
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+		Log.d("MyContentProvider", "update");
 		int res = 0;
 		if (uriMatcher.match(uri) == 1) {
 			SQLiteDatabase db = dbHandler.getWritableDatabase();
@@ -117,6 +91,7 @@ public class MyContentProvider extends ContentProvider {
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		Log.d("MyContentProvider", "delete");
 		int res = 0;
 		if (uriMatcher.match(uri) == 1) {
 			SQLiteDatabase db = dbHandler.getWritableDatabase();

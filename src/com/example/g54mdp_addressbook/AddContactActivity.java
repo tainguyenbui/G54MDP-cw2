@@ -29,12 +29,8 @@ public class AddContactActivity extends Activity {
 
 	private EditText nameET = null, surnameET = null, telephoneET = null, emailET = null;
 
-	private static String THUMBNAIL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
-			+ "/contact_thumbnails";
-
-	private static String DEFAULT_ICON_PATH = THUMBNAIL_PATH + "/ic_contact_picture_2.png";
-
-	private String originalImagePath = DEFAULT_ICON_PATH, thumbnailImagePath = DEFAULT_ICON_PATH;
+	private String originalImagePath = ContactsContract.DEFAULT_ICON_PATH,
+			thumbnailImagePath = ContactsContract.DEFAULT_ICON_PATH;
 
 	private Button btnAddContact;
 
@@ -119,7 +115,7 @@ public class AddContactActivity extends Activity {
 			telephoneET = (EditText) findViewById(R.id.TelephoneNumberET);
 			String telephone = telephoneET.getText().toString();
 
-			File fileDir = new File(THUMBNAIL_PATH);
+			File fileDir = new File(ContactsContract.THUMBNAIL_PATH);
 			if (!fileDir.exists())
 				fileDir.mkdirs();
 

@@ -1,6 +1,7 @@
 package library;
 
 import android.net.Uri;
+import android.os.Environment;
 
 public class ContactsContract {
 	public static final int CHOOSE_PIC_REQUEST_CODE = 3;
@@ -49,7 +50,12 @@ public class ContactsContract {
 			ContactsContract.KEY_SURNAME, ContactsContract.KEY_TELEPHONE, ContactsContract.KEY_EMAIL,
 			ContactsContract.KEY_THUMBNAIL_IMAGE_PATH, ContactsContract.KEY_ORIGINAL_IMAGE_PATH };
 
-	public static final String LISTVIEW_ORDER = ContactsContract.KEY_NAME + " ASC";
+	public static final String LISTVIEW_ORDER = ContactsContract.KEY_NAME + " COLLATE NOCASE ASC";
 
 	public static final String SELECTION_BY_ID = ContactsContract.KEY_CONTACT_ID + " = ";
+
+	public static String THUMBNAIL_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
+			+ "/contact_thumbnails";
+
+	public static String DEFAULT_ICON_PATH = THUMBNAIL_PATH + "/ic_contact_picture_2.png";
 }

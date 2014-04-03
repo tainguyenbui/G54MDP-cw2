@@ -29,28 +29,29 @@ public final class R {
     }
     public static final class id {
         public static final int TelephoneNumberET=0x7f080004;
-        public static final int action_settings=0x7f08001a;
+        public static final int action_settings=0x7f08001b;
         public static final int addContactTitle=0x7f080000;
-        public static final int appTitle=0x7f080015;
+        public static final int appTitle=0x7f080016;
         public static final int btnAddContact=0x7f080006;
         public static final int call_icon=0x7f080012;
         public static final int contactImage=0x7f080010;
         public static final int contactImageView=0x7f080007;
         public static final int contactNameET=0x7f080002;
         public static final int contactSurnameET=0x7f080003;
-        public static final int contact_icon=0x7f080017;
-        public static final int contacts_list=0x7f080016;
+        public static final int contact_icon=0x7f080018;
+        public static final int contacts_list=0x7f080017;
+        public static final int deleteContactBtn=0x7f080015;
         public static final int editContactBtn=0x7f080011;
         public static final int emailET=0x7f080005;
         public static final int emailLabel=0x7f08000f;
         public static final int emailTitle=0x7f08000e;
         public static final int email_icon=0x7f080013;
         public static final int finishEditBtn=0x7f080014;
-        public static final int name=0x7f080018;
+        public static final int name=0x7f080019;
         public static final int nameImageLayout=0x7f080001;
         public static final int nameLabel=0x7f080009;
         public static final int nameTitle=0x7f080008;
-        public static final int surname=0x7f080019;
+        public static final int surname=0x7f08001a;
         public static final int surnameLabel=0x7f08000b;
         public static final int surnameTitle=0x7f08000a;
         public static final int telephoneLabel=0x7f08000d;
