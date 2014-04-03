@@ -13,6 +13,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
+/**
+ * 
+ * @author Tai Nguyen Bui (psytn2)
+ * 
+ *         Content provider for the Phonebook application
+ * 
+ */
 public class MyContentProvider extends ContentProvider {
 
 	private DatabaseHandler dbHandler = null;
@@ -44,9 +51,13 @@ public class MyContentProvider extends ContentProvider {
 		return contentType;
 	}
 
+	/**
+	 * Insert data on database
+	 */
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		Log.d("MyContentProvider", "insert");
+
 		SQLiteDatabase db = dbHandler.getWritableDatabase();
 		long rowID = db.insert(ContactsContract.TABLE_CONTACTS, null, values);
 		db.close();
@@ -61,6 +72,9 @@ public class MyContentProvider extends ContentProvider {
 
 	}
 
+	/**
+	 * Query to database
+	 */
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		Log.d("MyContentProvider", "query");
@@ -68,10 +82,14 @@ public class MyContentProvider extends ContentProvider {
 		SQLiteDatabase db = dbHandler.getWritableDatabase();
 		Cursor cursor = db.query(ContactsContract.TABLE_CONTACTS, projection, selection, selectionArgs, null, null,
 				sortOrder, null);
+
 		cursor.moveToFirst();
 		return cursor;
 	}
 
+	/**
+	 * Update database
+	 */
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		Log.d("MyContentProvider", "update");
@@ -89,6 +107,9 @@ public class MyContentProvider extends ContentProvider {
 		return res;
 	}
 
+	/**
+	 * Delete data on database
+	 */
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		Log.d("MyContentProvider", "delete");

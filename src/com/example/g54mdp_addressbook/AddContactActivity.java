@@ -16,7 +16,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+/**
+ * 
+ * @author Tai Nguyen Bui (psytn2)
+ * 
+ *         Activity opened when a contact wants to be added
+ * 
+ */
 public class AddContactActivity extends Activity {
+
 	private ImageView contactImageView;
 
 	private EditText nameET = null, surnameET = null, telephoneET = null, emailET = null;
@@ -31,6 +39,7 @@ public class AddContactActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_contact);
 
+		// Set listener on the contact image, in order to be able to select an image
 		contactImageView = (ImageView) findViewById(R.id.contactImageView);
 		contactImageView.setOnClickListener(new View.OnClickListener() {
 
@@ -42,6 +51,7 @@ public class AddContactActivity extends Activity {
 			}
 		});
 
+		// Add contact button listener
 		btnAddContact = (Button) findViewById(R.id.btnAddContact);
 		btnAddContact.setOnClickListener(new View.OnClickListener() {
 
@@ -84,6 +94,19 @@ public class AddContactActivity extends Activity {
 		});
 	}
 
+	@Override
+	protected void onStop() {
+		super.onStop();
+	}
+
+	/**
+	 * Verify that the data inserted is valid
+	 * 
+	 * @param name of contact
+	 * @param telephone of contact
+	 * @param email of contact
+	 * @return
+	 */
 	private boolean validContactDetails(String name, String telephone, String email) {
 		// Check not empty field in Name
 		if (name.length() > 1 && telephone.length() > 2 && email.contains("@") && !email.endsWith("@")
@@ -96,6 +119,9 @@ public class AddContactActivity extends Activity {
 		return false;
 	}
 
+	/**
+	 * Set the image selected through the image picker on the ImageView of the contact
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == ContactsContract.CHOOSE_PIC_REQUEST_CODE && resultCode == RESULT_OK) {

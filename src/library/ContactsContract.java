@@ -8,6 +8,18 @@ public class ContactsContract {
 
 	public static final int THUMBNAIL_SIZE = 120;
 
+	public static final int SUCCESSFUL_ADD_CONTACT_REQUEST = 2;
+
+	// Database Version
+	public static final int DATABASE_VERSION = 7;
+
+	// Database Name
+	public static final String DATABASE_NAME = "AddressBook-MDP";
+
+	// Contacts table name
+	public static final String TABLE_CONTACTS = "contacts";
+
+	// Database fields
 	public static final String KEY_CONTACT_ID = "_id";
 
 	public static final String KEY_NAME = "name";
@@ -22,16 +34,10 @@ public class ContactsContract {
 
 	public static final String KEY_ORIGINAL_IMAGE_PATH = "original_image_path";
 
-	public static final int SUCCESSFUL_ADD_CONTACT_REQUEST = 2;
-
-	// Database Version
-	public static final int DATABASE_VERSION = 6;
-
-	// Database Name
-	public static final String DATABASE_NAME = "AddressBook-MDP";
-
-	// Contacts table name
-	public static final String TABLE_CONTACTS = "contacts";
+	// Database columns string set
+	public static final String[] TABLE_COLUMNS = { ContactsContract.KEY_CONTACT_ID, ContactsContract.KEY_NAME,
+			ContactsContract.KEY_SURNAME, ContactsContract.KEY_TELEPHONE, ContactsContract.KEY_EMAIL,
+			ContactsContract.KEY_THUMBNAIL_IMAGE_PATH, ContactsContract.KEY_ORIGINAL_IMAGE_PATH };
 
 	// Content provider
 	public static final String AUTHORITY = "com.example.g54mdp_addressbook.MyContentProvider";
@@ -45,10 +51,6 @@ public class ContactsContract {
 	public static final int CONTACTS = 1;
 
 	public static final int CONTACTS_ID = 2;
-
-	public static final String[] TABLE_COLUMNS = { ContactsContract.KEY_CONTACT_ID, ContactsContract.KEY_NAME,
-			ContactsContract.KEY_SURNAME, ContactsContract.KEY_TELEPHONE, ContactsContract.KEY_EMAIL,
-			ContactsContract.KEY_THUMBNAIL_IMAGE_PATH, ContactsContract.KEY_ORIGINAL_IMAGE_PATH };
 
 	public static final String LISTVIEW_ORDER = ContactsContract.KEY_NAME + " COLLATE NOCASE ASC";
 

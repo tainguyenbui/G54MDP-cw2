@@ -13,6 +13,14 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+/**
+ * 
+ * @author Tai Nguyen Bui (psytn2)
+ * 
+ *         Main activity of the application, it displays the list of contacts and allows the user to add a new one or
+ *         access to more details about a specific contact
+ * 
+ */
 public class MainActivity extends Activity {
 
 	private ListView listView;
@@ -22,7 +30,9 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		// Update contacts listview
 		updateContactList();
+
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -36,8 +46,13 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
+	protected void onStop() {
+		super.onStop();
+	}
+
+	@Override
 	protected void onStart() {
-		// Update contact list in case a contact has been deleted
+		// Update contacts listview in case a contact has been deleted
 		updateContactList();
 		super.onStart();
 	}
@@ -49,11 +64,19 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	/**
+	 * Function called when Add Contact button is pressed
+	 * 
+	 * @param view
+	 */
 	public void addContact(View view) {
 		Intent addContactIntent = new Intent(getApplicationContext(), AddContactActivity.class);
 		startActivityForResult(addContactIntent, ContactsContract.SUCCESSFUL_ADD_CONTACT_REQUEST);
 	}
 
+	/**
+	 * Function called when contact has been added
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK && requestCode == ContactsContract.SUCCESSFUL_ADD_CONTACT_REQUEST) {
@@ -62,6 +85,9 @@ public class MainActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
+	/**
+	 * Update Listview
+	 */
 	private void updateContactList() {
 		Cursor cursor = getContentResolver().query(ContactsContract.CONTACTS_URI, ContactsContract.TABLE_COLUMNS, null,
 				null, ContactsContract.LISTVIEW_ORDER);
@@ -74,6 +100,7 @@ public class MainActivity extends Activity {
 			SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.listview_items, cursor, columns,
 					toViews, 0);
 
+			// Set adapter to listView
 			listView = (ListView) findViewById(R.id.contacts_list);
 			listView.setAdapter(adapter);
 		}
