@@ -9,10 +9,8 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
@@ -29,7 +27,6 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-				final long _id = id;
 				Log.d("MainActivity", "List Item clicked, ID: " + id);
 				Intent viewContactDetailsIntent = new Intent(getApplicationContext(), ContactDetailsActivity.class);
 				viewContactDetailsIntent.putExtra(ContactsContract.KEY_CONTACT_ID, id);

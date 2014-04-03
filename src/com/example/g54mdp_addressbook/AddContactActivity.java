@@ -1,21 +1,13 @@
 package com.example.g54mdp_addressbook;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
+import library.ContactImageData;
 import library.ContactsContract;
-import android.media.MediaScannerConnection;
-import android.media.ThumbnailUtils;
+import library.ImageHelper;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -44,10 +36,9 @@ public class AddContactActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent imagePicker = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-				imagePicker.addCategory(Intent.CATEGORY_OPENABLE);
-				imagePicker.setType("image/*");
-				startActivityForResult(imagePicker, ContactsContract.CHOOSE_PIC_REQUEST_CODE);
+				Intent imagePickerIntent = new Intent(Intent.ACTION_PICK,
+						android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+				startActivityForResult(imagePickerIntent, ContactsContract.CHOOSE_PIC_REQUEST_CODE);
 			}
 		});
 
@@ -95,7 +86,8 @@ public class AddContactActivity extends Activity {
 
 	private boolean validContactDetails(String name, String telephone, String email) {
 		// Check not empty field in Name
-		if (name.length() > 1 && telephone.length() > 2 && email.contains("@") && email.length() > 5) {
+		if (name.length() > 1 && telephone.length() > 2 && email.contains("@") && !email.endsWith("@")
+				&& email.length() > 5) {
 			return true;
 		}
 		else {
@@ -108,73 +100,19 @@ public class AddContactActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == ContactsContract.CHOOSE_PIC_REQUEST_CODE && resultCode == RESULT_OK) {
 			Uri pictureUri = data.getData();
-			Bitmap contactImageThumbnail = getImageThumbNail(pictureUri);
+
+			ImageHelper imageHelper = new ImageHelper(getContentResolver());
+			ContactImageData contactImageData = imageHelper.createThumbnail(pictureUri);
+
+			this.originalImagePath = contactImageData.getOriginalImagePath();
+			this.thumbnailImagePath = contactImageData.getThumbnailImagePath();
+
 			contactImageView = (ImageView) findViewById(R.id.contactImageView);
-			contactImageView.setImageBitmap(contactImageThumbnail);
-
-			telephoneET = (EditText) findViewById(R.id.TelephoneNumberET);
-			String telephone = telephoneET.getText().toString();
-
-			File fileDir = new File(ContactsContract.THUMBNAIL_PATH);
-			if (!fileDir.exists())
-				fileDir.mkdirs();
-
-			String path = fileDir.getAbsolutePath();
-
-			String thumbnailName = "thumbnail_Contact_" + System.currentTimeMillis() + ".png";
-
-			thumbnailImagePath = path + "/" + thumbnailName;
-			File file = new File(path, thumbnailName);
-
-			try {
-				FileOutputStream fout = new FileOutputStream(file);
-				contactImageThumbnail.compress(Bitmap.CompressFormat.PNG, 100, fout);
-				fout.flush();
-				fout.close();
-
-				Log.d("AddContactActivity", "Image saved");
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
+			contactImageView.setImageBitmap(contactImageData.getThumbnailImage());
 
 			Log.d("AddContactActivity", "onActivityResult, picture uri: " + pictureUri.toString());
 		}
 		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	private Bitmap getImageThumbNail(Uri pictureUri) {
-		BitmapFactory.Options bounds = new BitmapFactory.Options();
-		bounds.inJustDecodeBounds = true;
-
-		originalImagePath = getImagePath(pictureUri);
-
-		BitmapFactory.decodeFile(originalImagePath, bounds);
-
-		if (bounds.outWidth == -1 || bounds.outHeight == -1)
-			return null;
-
-		int originalSize = (bounds.outHeight > bounds.outWidth) ? bounds.outHeight : bounds.outWidth;
-
-		BitmapFactory.Options opts = new BitmapFactory.Options();
-		opts.inSampleSize = originalSize / ContactsContract.THUMBNAIL_SIZE;
-		return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(originalImagePath, opts), 140, 140);
-	}
-
-	private String getImagePath(Uri pictureUri) {
-		Cursor cursor = getContentResolver().query(pictureUri, null, null, null, null);
-		cursor.moveToFirst();
-		String document_id = cursor.getString(0);
-		document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
-		cursor.close();
-
-		cursor = getContentResolver().query(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null,
-				MediaStore.Images.Media._ID + " = ? ", new String[] { document_id }, null);
-		cursor.moveToFirst();
-		String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-		cursor.close();
-
-		return path;
 	}
 
 	@Override
