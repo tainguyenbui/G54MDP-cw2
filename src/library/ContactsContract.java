@@ -50,4 +50,6 @@ public class ContactsContract {
 			ContactsContract.KEY_THUMBNAIL_IMAGE_PATH, ContactsContract.KEY_ORIGINAL_IMAGE_PATH };
 
 	public static final String LISTVIEW_ORDER = ContactsContract.KEY_NAME + " ASC";
+
+	public static final String SELECTION_BY_ID = ContactsContract.KEY_CONTACT_ID + " = ";
 }

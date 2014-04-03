@@ -105,11 +105,13 @@ public class MyContentProvider extends ContentProvider {
 		if (uriMatcher.match(uri) == 1) {
 			SQLiteDatabase db = dbHandler.getWritableDatabase();
 			res = db.update(ContactsContract.TABLE_CONTACTS, values, selection, selectionArgs);
+			Log.d("MyContentProvider", "Contact Updated");
 			db.close();
 		}
 		else {
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
+		getContext().getContentResolver().notifyChange(uri, null);
 		return res;
 	}
 

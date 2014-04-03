@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/appTitle"
         android:layout_alignBottom="@+id/appTitle"
+        android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/appTitle"
         android:onClick="addContact"
         android:text="Add contact" />
@@ -35,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/btnAddContact"
-        android:layout_marginTop="15dp" >
+        android:layout_marginTop="20dp" >
     </ListView>
 
 </RelativeLayout>

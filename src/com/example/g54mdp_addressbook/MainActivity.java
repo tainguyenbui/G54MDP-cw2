@@ -9,12 +9,16 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
 	private ListView listView;
+
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +30,14 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+				final long _id = id;
 				Log.d("MainActivity", "List Item clicked, ID: " + id);
-
+				Intent viewContactDetailsIntent = new Intent(getApplicationContext(), ContactDetailsActivity.class);
+				viewContactDetailsIntent.putExtra(ContactsContract.KEY_CONTACT_ID, id);
+				startActivity(viewContactDetailsIntent);
 			}
 		});
+
 	}
 
 	@Override
@@ -57,8 +65,9 @@ public class MainActivity extends Activity {
 				null, ContactsContract.LISTVIEW_ORDER);
 
 		if (cursor != null) {
-			String[] columns = { ContactsContract.KEY_NAME, ContactsContract.KEY_THUMBNAIL_IMAGE_PATH };
-			int[] toViews = { R.id.name, R.id.contact_icon };
+			String[] columns = { ContactsContract.KEY_NAME, ContactsContract.KEY_SURNAME,
+					ContactsContract.KEY_THUMBNAIL_IMAGE_PATH };
+			int[] toViews = { R.id.name, R.id.surname, R.id.contact_icon };
 
 			SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.listview_items, cursor, columns,
 					toViews, 0);
@@ -66,6 +75,5 @@ public class MainActivity extends Activity {
 			listView = (ListView) findViewById(R.id.contacts_list);
 			listView.setAdapter(adapter);
 		}
-
 	}
 }

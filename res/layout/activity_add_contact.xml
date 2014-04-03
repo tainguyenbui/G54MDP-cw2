@@ -32,17 +32,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:ems="10"
-                android:hint="Name"
+                android:hint="@string/name"
                 android:inputType="text" >
             </EditText>
-
-            <ImageView
-                android:id="@+id/contactImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/contactNameET"
-                android:layout_marginLeft="30dp"
-                android:src="@drawable/ic_contact_picture_2" />
         </RelativeLayout>
 
         <EditText
@@ -53,7 +45,7 @@
             android:layout_below="@+id/nameImageLayout"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:hint="Surname"
+            android:hint="@string/surname"
             android:inputType="text" />
 
         <EditText
@@ -87,6 +79,14 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:text="Add contact" />
+
+        <ImageView
+            android:id="@+id/contactImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/contactSurnameET"
+            android:layout_toRightOf="@+id/nameImageLayout"
+            android:src="@drawable/ic_contact_picture_2" />
     </RelativeLayout>
 
 </ScrollView>
