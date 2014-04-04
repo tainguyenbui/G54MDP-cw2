@@ -3,14 +3,19 @@ package com.example.g54mdp_addressbook;
 import library.ContactsContract;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 /**
@@ -33,6 +38,7 @@ public class MainActivity extends Activity {
 		// Update contacts listview
 		updateContactList();
 
+		// Set listener for the listview when an item is clicked
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -43,6 +49,7 @@ public class MainActivity extends Activity {
 				startActivity(viewContactDetailsIntent);
 			}
 		});
+
 	}
 
 	@Override
@@ -55,13 +62,6 @@ public class MainActivity extends Activity {
 		// Update contacts listview in case a contact has been deleted
 		updateContactList();
 		super.onStart();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
 	}
 
 	/**
@@ -104,5 +104,22 @@ public class MainActivity extends Activity {
 			listView = (ListView) findViewById(R.id.contacts_list);
 			listView.setAdapter(adapter);
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.add_contact_main:
+			addContact(this.getCurrentFocus());
+			break;
+		}
+		return super.onMenuItemSelected(featureId, item);
 	}
 }

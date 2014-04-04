@@ -6,10 +6,13 @@ import library.ImageHelper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.ClipData.Item;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +35,7 @@ public class AddContactActivity extends Activity {
 	private String originalImagePath = ContactsContract.DEFAULT_ICON_PATH,
 			thumbnailImagePath = ContactsContract.DEFAULT_ICON_PATH;
 
-	private Button btnAddContact;
+	private MenuItem itemAddContact;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,47 +54,6 @@ public class AddContactActivity extends Activity {
 			}
 		});
 
-		// Add contact button listener
-		btnAddContact = (Button) findViewById(R.id.btnAddContact);
-		btnAddContact.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				nameET = (EditText) findViewById(R.id.contactNameET);
-				String name = nameET.getText().toString();
-
-				surnameET = (EditText) findViewById(R.id.contactSurnameET);
-				String surname = surnameET.getText().toString();
-
-				telephoneET = (EditText) findViewById(R.id.TelephoneNumberET);
-				String telephone = telephoneET.getText().toString();
-
-				emailET = (EditText) findViewById(R.id.emailET);
-				String email = emailET.getText().toString();
-
-				if (validContactDetails(name, telephone, email)) {
-					ContentValues values = new ContentValues();
-					values.put(ContactsContract.KEY_NAME, name); // Name
-					values.put(ContactsContract.KEY_SURNAME, surname); // Surname
-					values.put(ContactsContract.KEY_TELEPHONE, telephone); // Telephone
-					values.put(ContactsContract.KEY_EMAIL, email); // Email
-					values.put(ContactsContract.KEY_THUMBNAIL_IMAGE_PATH, thumbnailImagePath);
-					values.put(ContactsContract.KEY_ORIGINAL_IMAGE_PATH, originalImagePath);
-
-					Uri uri = getContentResolver().insert(ContactsContract.CONTACTS_URI, values);
-
-					Toast contactAddedToast = Toast.makeText(getApplicationContext(), "Contact Added",
-							Toast.LENGTH_LONG);
-					contactAddedToast.show();
-
-					Intent _result = new Intent();
-					_result.setData(uri);
-					setResult(Activity.RESULT_OK, _result);
-					finish();
-				}
-			}
-
-		});
 	}
 
 	@Override
@@ -145,6 +107,46 @@ public class AddContactActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.add_contact, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.add_contact_menu:
+			nameET = (EditText) findViewById(R.id.contactNameET);
+			String name = nameET.getText().toString();
+
+			surnameET = (EditText) findViewById(R.id.contactSurnameET);
+			String surname = surnameET.getText().toString();
+
+			telephoneET = (EditText) findViewById(R.id.TelephoneNumberET);
+			String telephone = telephoneET.getText().toString();
+
+			emailET = (EditText) findViewById(R.id.emailET);
+			String email = emailET.getText().toString();
+
+			if (validContactDetails(name, telephone, email)) {
+				ContentValues values = new ContentValues();
+				values.put(ContactsContract.KEY_NAME, name); // Name
+				values.put(ContactsContract.KEY_SURNAME, surname); // Surname
+				values.put(ContactsContract.KEY_TELEPHONE, telephone); // Telephone
+				values.put(ContactsContract.KEY_EMAIL, email); // Email
+				values.put(ContactsContract.KEY_THUMBNAIL_IMAGE_PATH, this.thumbnailImagePath);
+				values.put(ContactsContract.KEY_ORIGINAL_IMAGE_PATH, this.originalImagePath);
+
+				Uri uri = getContentResolver().insert(ContactsContract.CONTACTS_URI, values);
+
+				Toast contactAddedToast = Toast.makeText(getApplicationContext(), "Contact Added", Toast.LENGTH_LONG);
+				contactAddedToast.show();
+
+				Intent _result = new Intent();
+				_result.setData(uri);
+				setResult(Activity.RESULT_OK, _result);
+				finish();
+			}
+			break;
+		}
 		return true;
 	}
 

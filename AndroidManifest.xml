@@ -28,7 +28,8 @@
         </activity>
         <activity
             android:name="com.example.g54mdp_addressbook.AddContactActivity"
-            android:label="@string/title_activity_add_contact" >
+            android:label="@string/title_activity_add_contact"
+            android:screenOrientation="portrait" >
         </activity>
 
         <provider
@@ -38,7 +39,8 @@
 
         <activity
             android:name="com.example.g54mdp_addressbook.ContactDetailsActivity"
-            android:label="@string/title_activity_contact_details" >
+            android:label="@string/title_activity_contact_details"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

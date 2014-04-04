@@ -12,25 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="369dp" >
 
-        <TextView
-            android:id="@+id/addContactTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add contact:"
-            android:textSize="23sp" />
-
         <RelativeLayout
             android:id="@+id/nameImageLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_below="@+id/addContactTitle"
             android:layout_marginTop="30dp" >
 
             <EditText
                 android:id="@+id/contactNameET"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="@string/name"
                 android:inputType="text" >
@@ -41,7 +33,6 @@
             android:id="@+id/contactSurnameET"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/addContactTitle"
             android:layout_below="@+id/nameImageLayout"
             android:layout_marginTop="10dp"
             android:ems="10"
@@ -52,7 +43,6 @@
             android:id="@+id/TelephoneNumberET"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/addContactTitle"
             android:layout_below="@+id/contactSurnameET"
             android:layout_marginTop="30dp"
             android:ems="10"
@@ -63,22 +53,11 @@
             android:id="@+id/emailET"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/addContactTitle"
             android:layout_below="@+id/TelephoneNumberET"
             android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="Email address"
             android:inputType="textEmailAddress" />
-
-        <Button
-            android:id="@+id/btnAddContact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/emailET"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:text="Add contact" />
 
         <ImageView
             android:id="@+id/contactImageView"
