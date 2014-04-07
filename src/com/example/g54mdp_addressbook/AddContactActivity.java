@@ -40,11 +40,12 @@ public class AddContactActivity extends Activity {
 		// Set listener on the contact image, in order to be able to select an image
 		contactImageView = (ImageView) findViewById(R.id.contactImageView);
 		contactImageView.setOnClickListener(new View.OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				Intent imagePickerIntent = new Intent(Intent.ACTION_PICK,
 						android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+				// Start activity that allows the user to select a picture from the media gallery
 				startActivityForResult(imagePickerIntent, ContactsContract.CHOOSE_PIC_REQUEST_CODE);
 			}
 		});
@@ -53,7 +54,6 @@ public class AddContactActivity extends Activity {
 
 	@Override
 	protected void onStop() {
-		finish();
 		super.onStop();
 	}
 
@@ -72,13 +72,15 @@ public class AddContactActivity extends Activity {
 			return true;
 		}
 		else {
+			// Show a toast with a message when the details are not valid
 			Toast.makeText(getApplicationContext(), "Invalid input, please check", Toast.LENGTH_LONG).show();
 		}
 		return false;
 	}
 
 	/**
-	 * Set the image selected through the image picker on the ImageView of the contact
+	 * Get the URI of the image selected by the user in the gallery activity and then Set the image selected through the
+	 * image picker on the ImageView of the contact
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -88,9 +90,11 @@ public class AddContactActivity extends Activity {
 			ImageHelper imageHelper = new ImageHelper(getContentResolver());
 			ContactImageData contactImageData = imageHelper.createThumbnail(pictureUri);
 
+			// Set the original and thumbnail paths in the global variables
 			this.originalImagePath = contactImageData.getOriginalImagePath();
 			this.thumbnailImagePath = contactImageData.getThumbnailImagePath();
 
+			// Set the image in the ImageView of the activity
 			contactImageView = (ImageView) findViewById(R.id.contactImageView);
 			contactImageView.setImageBitmap(contactImageData.getThumbnailImage());
 
@@ -106,10 +110,15 @@ public class AddContactActivity extends Activity {
 		return true;
 	}
 
+	/**
+	 * Set the actions of the menuItem of the activity
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.add_contact_menu:
+
+			// Convert input into Strings
 			nameET = (EditText) findViewById(R.id.contactNameET);
 			String name = nameET.getText().toString();
 
@@ -122,6 +131,7 @@ public class AddContactActivity extends Activity {
 			emailET = (EditText) findViewById(R.id.emailET);
 			String email = emailET.getText().toString();
 
+			// check that input is valid and send data to be inserted through the content provider
 			if (validContactDetails(name, telephone, email)) {
 				ContentValues values = new ContentValues();
 				values.put(ContactsContract.KEY_NAME, name); // Name
@@ -133,9 +143,11 @@ public class AddContactActivity extends Activity {
 
 				Uri uri = getContentResolver().insert(ContactsContract.CONTACTS_URI, values);
 
+				// Show a toast if the contact has been added succesfully
 				Toast contactAddedToast = Toast.makeText(getApplicationContext(), "Contact Added", Toast.LENGTH_LONG);
 				contactAddedToast.show();
 
+				// Return an intent with the result to the parent activity
 				Intent _result = new Intent();
 				_result.setData(uri);
 				setResult(Activity.RESULT_OK, _result);

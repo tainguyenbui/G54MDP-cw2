@@ -4,12 +4,18 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * 
+ * @author Tai Nguyen Bui (psytn2) Database handler of the application, it creates the database if it does not exists,
+ *         and delete and create again if the database needs to be updated with a new version
+ * 
+ */
 public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String CREATE_CONTACTS_TABLE = "CREATE TABLE " + ContactsContract.TABLE_CONTACTS + "("
-			+ ContactsContract.KEY_CONTACT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ContactsContract.KEY_NAME + " TEXT NOT NULL,"
-			+ ContactsContract.KEY_SURNAME + " TEXT," + ContactsContract.KEY_TELEPHONE + " TEXT," + ContactsContract.KEY_EMAIL
-			+ " TEXT UNIQUE," + ContactsContract.KEY_THUMBNAIL_IMAGE_PATH + " TEXT," + ContactsContract.KEY_ORIGINAL_IMAGE_PATH
-			+ " TEXT)";
+			+ ContactsContract.KEY_CONTACT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ContactsContract.KEY_NAME
+			+ " TEXT NOT NULL," + ContactsContract.KEY_SURNAME + " TEXT," + ContactsContract.KEY_TELEPHONE + " TEXT,"
+			+ ContactsContract.KEY_EMAIL + " TEXT UNIQUE," + ContactsContract.KEY_THUMBNAIL_IMAGE_PATH + " TEXT,"
+			+ ContactsContract.KEY_ORIGINAL_IMAGE_PATH + " TEXT)";
 
 	public DatabaseHandler(Context context) {
 		super(context, ContactsContract.DATABASE_NAME, null, ContactsContract.DATABASE_VERSION);

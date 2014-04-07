@@ -24,7 +24,6 @@ import android.widget.ListView;
  */
 public class MainActivity extends Activity {
 
-
 	private ListView listView;
 
 	@Override
@@ -59,7 +58,7 @@ public class MainActivity extends Activity {
 		finish();
 		super.onDestroy();
 	}
-	
+
 	@Override
 	protected void onStart() {
 		// Update contacts listview in case a contact has been deleted
@@ -68,7 +67,7 @@ public class MainActivity extends Activity {
 	}
 
 	/**
-	 * Function called when Add Contact button is pressed
+	 * Function called when Add Contact button is pressed, it starts an Activity to fill information about the contact
 	 * 
 	 * @param view
 	 */
@@ -89,7 +88,7 @@ public class MainActivity extends Activity {
 	}
 
 	/**
-	 * Update Listview
+	 * Update Listview with the latest contacts information from the database
 	 */
 	private void updateContactList() {
 		Cursor cursor = getContentResolver().query(ContactsContract.CONTACTS_URI, ContactsContract.TABLE_COLUMNS, null,

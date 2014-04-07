@@ -3,6 +3,13 @@ package library;
 import android.net.Uri;
 import android.os.Environment;
 
+/**
+ * 
+ * @author Tai Nguyen Bui (psytn2)
+ * 
+ *         Definition of constants of the application and the Contract of the content provider
+ * 
+ */
 public class ContactsContract {
 	public static final int CHOOSE_PIC_REQUEST_CODE = 3;
 
@@ -11,7 +18,7 @@ public class ContactsContract {
 	public static final int SUCCESSFUL_ADD_CONTACT_REQUEST = 2;
 
 	// Database Version
-	public static final int DATABASE_VERSION = 7;
+	public static final int DATABASE_VERSION = 8;
 
 	// Database Name
 	public static final String DATABASE_NAME = "AddressBook-MDP";
