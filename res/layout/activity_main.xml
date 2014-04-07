@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="17dp"
-        android:text="My contacts"
+        android:text="@string/my_contacts"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
@@ -29,7 +29,7 @@
         android:layout_marginLeft="30dp"
         android:layout_toRightOf="@+id/appTitle"
         android:onClick="addContact"
-        android:text="Add contact" />
+        android:text="@string/add_contact" />
 
     <ListView
         android:id="@+id/contacts_list"
