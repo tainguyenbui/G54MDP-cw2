@@ -18,7 +18,7 @@ public class ContactsContract {
 	public static final int SUCCESSFUL_ADD_CONTACT_REQUEST = 2;
 
 	// Database Version
-	public static final int DATABASE_VERSION = 8;
+	public static final int DATABASE_VERSION = 9;
 
 	// Database Name
 	public static final String DATABASE_NAME = "AddressBook-MDP";

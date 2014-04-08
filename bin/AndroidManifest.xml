@@ -34,7 +34,9 @@
 
         <provider
             android:name="com.example.g54mdp_addressbook.MyContentProvider"
-            android:authorities="com.example.g54mdp_addressbook.MyContentProvider" >
+            android:authorities="com.example.g54mdp_addressbook.MyContentProvider"
+            android:exported="true"
+            android:readPermission="android.permission.permRead" >
         </provider>
 
         <activity
